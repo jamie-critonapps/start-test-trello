@@ -31,7 +31,4 @@ db.find({ }, (err, results) => {
   }
 });
 
-console.info(db.indexes);
-
-
 module.exports = db;

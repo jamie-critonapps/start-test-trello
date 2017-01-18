@@ -36,8 +36,9 @@ const routes = (app) => {
       console.error(`Missing or invalid token: ${rtoken.substring(0, 15)}`);
       return res.sendStatus(400);
     }
-    if (!req.body.cardId || !/^[0-9a-f]+$/.test(req.body.cardId)) {
-      console.error(`Missing or invalid cardId: ${req.body.cardId}`);
+    const cardId = req.body.cardId;
+    if (!cardId || !/^[0-9a-f]+$/.test(cardId)) {
+      console.error(`Missing or invalid cardId: ${cardId}`);
       return res.sendStatus(400);
     }
     if (!req.body.snoozeTime) {
@@ -54,34 +55,35 @@ const routes = (app) => {
     // We know we have what we need, and that it _looks_ valid
     // Now we need to check that the token especially really is valid
     // and has the appropriate access to the card in question
-    const success = yield updateCardClosed(req.body.cardId, token, true);
+    const success = yield updateCardClosed(cardId, token, true);
     if (!success) {
       return res.sendStatus(403);
     }
 
     // Everything checks out, store the snooze
-    db.find({ cardId: req.body.cardId }, (err, docs) => {
+    db.find({ cardId }, (err, docs) => {
       if (err) {
         console.error(`Error finding snooze in DB. error=${err.message}`);
         return res.sendStatus(500);
       }
       if (!docs || docs.length === 0) {
-        db.insert({ token, cardId: req.body.cardId, snoozeTime }, function (err, added) {
+        db.insert({ cardId, snoozeTime, token }, function (err, added) {
           if (err) {
             console.error(err);
-            console.error(`Error inserting snooze into DB. error=${err.message}, cardId=${req.body.cardId}, until=${snoozeTime}`);
+            console.error(`Error inserting snooze into DB. error=${err.message}, ` +
+              `cardId=${cardId}, until=${snoozeTime}, token=${token.substring(0, 15)}`);
             return res.sendStatus(500);
           }
-          console.log(`🎉 Inserted snooze into DB. cardId=${req.body.cardId} until=${snoozeTime}`);
+          console.log(`🎉 Inserted snooze into DB. cardId=${cardId} until=${snoozeTime}`);
           return res.sendStatus(200);
         });
       } else {
-        db.update({ cardId: req.body.cardId }, { $set: { snoozeTime: snoozeTime } }, function (err, added) {
+        db.update({ cardId }, { $set: { snoozeTime } }, function (err, added) {
           if (err) {
             console.error(`Error inserting snooze into DB. error=${err.message}`);
             return res.sendStatus(500);
           }
-          console.log(`🎉 Updated snooze in DB. cardId=${req.body.cardId} until=${snoozeTime}`);
+          console.log(`🎉 Updated snooze in DB. cardId=${cardId} until=${snoozeTime}`);
           return res.sendStatus(200);
         });
       }
