@@ -31,8 +31,9 @@ const routes = (app) => {
       console.error('Missing body');
       return res.sendStatus(400);
     }
-    if (!req.body.token || !/^[0-9a-f]{64}$/.test(req.body.token)){
-      console.error(`Missing or invalid token: ${req.body.token.substring(0, 15)}`);
+    const token = req.body.token;
+    if (!token || !/^[0-9a-f]{64}$/.test(token)){
+      console.error(`Missing or invalid token: ${rtoken.substring(0, 15)}`);
       return res.sendStatus(400);
     }
     if (!req.body.cardId || !/^[0-9a-f]+$/.test(req.body.cardId)) {
@@ -53,7 +54,7 @@ const routes = (app) => {
     // We know we have what we need, and that it _looks_ valid
     // Now we need to check that the token especially really is valid
     // and has the appropriate access to the card in question
-    const success = yield updateCardClosed(req.body.cardId, req.body.token, true);
+    const success = yield updateCardClosed(req.body.cardId, token, true);
     if (!success) {
       return res.sendStatus(403);
     }
@@ -65,9 +66,7 @@ const routes = (app) => {
         return res.sendStatus(500);
       }
       if (!docs || docs.length === 0) {
-        console.info({ token: req.body.token.length, cardId: req.body.cardId, snoozeTime: snoozeTime });
-        let tmp = Object.create({ token: req.body.token, cardId: req.body.cardId, snoozeTime: snoozeTime });
-        db.insert(tmp, function (err, added) {
+        db.insert({ token, cardId: req.body.cardId, snoozeTime }, function (err, added) {
           if (err) {
             console.error(err);
             console.error(`Error inserting snooze into DB. error=${err.message}, cardId=${req.body.cardId}, until=${snoozeTime}`);
