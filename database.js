@@ -14,7 +14,7 @@ db.ensureIndex({ fieldName: 'cardId', unique: true }, function (err) {
 
 db.ensureIndex({ fieldName: 'snoozeTime' }, function (err) {
   if (err) {
-    console.error('Error setting up index on cardId');
+    console.error('Error setting up index on snoozeTime');
     console.error(err.message);
   } else {
     console.log('🛠 Built index on snoozeTime');
