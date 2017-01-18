@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const Datastore = require('nedb');
 // Security note: the database is saved to the file `datafile` on the local filesystem. It's deliberately placed in the `.data` directory
 // which doesn't get copied if someone remixes the project.
@@ -20,5 +21,13 @@ db.ensureIndex({ fieldName: 'snoozeTime' }, function (err) {
     console.log('🛠 Built index on snoozeTime');
   }
 });
+
+db.find({ }, (err, results) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.info(results.map((r) => _.pick(r, ['_id', 'cardId', 'snoozeTime'])));
+  }
+})
 
 module.exports = db;
