@@ -65,8 +65,9 @@ const routes = (app) => {
         return res.sendStatus(500);
       }
       if (!docs || docs.length === 0) {
-        console.info({ token: req.body.token.length, cardId: req.body.cardId, snoozeTime: snoozeTime })
-        db.insert({ token: req.body.token, cardId: req.body.cardId, snoozeTime: snoozeTime }, function (err, added) {
+        console.info({ token: req.body.token.length, cardId: req.body.cardId, snoozeTime: snoozeTime });
+        let tmp = Object.create({ token: req.body.token, cardId: req.body.cardId, snoozeTime: snoozeTime });
+        db.insert(tmp, function (err, added) {
           if (err) {
             console.error(err);
             console.error(`Error inserting snooze into DB. error=${err.message}, cardId=${req.body.cardId}, until=${snoozeTime}`);
