@@ -33,7 +33,7 @@ const routes = (app) => {
     }
     const token = req.body.token;
     if (!token || !/^[0-9a-f]{64}$/.test(token)){
-      console.error(`Missing or invalid token: ${rtoken.substring(0, 15)}`);
+      console.error(`Missing or invalid token: ${token.substring(0, 15)}`);
       return res.sendStatus(400);
     }
     const cardId = req.body.cardId;
