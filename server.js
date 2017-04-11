@@ -21,15 +21,15 @@ app.use(express.static('public'));
 // helps us parse the body of POST requests to set snoozes
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Keep Gomix from sleeping by periodically sending ourselves a http request
+// Keep Glitch from sleeping by periodically sending ourselves a http request
 setInterval(function() {
   console.log('❤️ Keep Alive Heartbeat');
-  rp('https://gomix.com/#!/project/trellocardsnooze')
+  rp('https://glitch.com/#!/project/trellocardsnooze')
   .then(() => {
-    console.log('💗 Successfully sent http request to Gomix to stay awake.');
+    console.log('💗 Successfully sent http request to Glitch to stay awake.');
   })
   .catch((err) => {
-    console.error(`💔 Error sending http request to Gomix to stay awake: ${err.message}`);
+    console.error(`💔 Error sending http request to Glitch to stay awake: ${err.message}`);
   });
 }, 150000); // every 2.5 minutes
 

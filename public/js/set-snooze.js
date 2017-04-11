@@ -1,3 +1,5 @@
+/* global TrelloPowerUp, moment, Pikaday */
+
 var Promise = TrelloPowerUp.Promise;
 var t = TrelloPowerUp.iframe();
 var now = moment().toDate();

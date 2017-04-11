@@ -10,7 +10,7 @@
       var Promise = TrelloPowerUp.Promise;
       var t = TrelloPowerUp.iframe();
       
-      var trelloAuthUrl = 'https://trello.com/1/authorize?expiration=never&name=Card%20Snooze&scope=read,write&key=5d801b206070c5332a841ec7b00ef21a&callback_method=fragment&return_url=https%3A%2F%2Ftrellocardsnooze.gomix.me%2Fauth-success.html';
+      var trelloAuthUrl = 'https://trello.com/1/authorize?expiration=never&name=Card%20Snooze&scope=read,write&key=5d801b206070c5332a841ec7b00ef21a&callback_method=fragment&return_url=https%3A%2F%2F' + window.location.host + '%2Fauth-success.html';
       
       var tokenLooksValid = function(token) {
         return /^[0-9a-f]{64}$/.test(token);
