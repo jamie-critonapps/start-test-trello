@@ -23,11 +23,11 @@ db.ensureIndex({ fieldName: 'snoozeTime' }, function (err) {
   }
 });
 
-db.find({ }, (err, results) => {
+db.count({}, (err, count) => {
   if (err) {
     console.error(err);
   } else {
-    console.info(results.map((r) => _.pick(r, ['_id', 'cardId', 'snoozeTime'])));
+    console.info(`DB currently has ${count} snoozed cards`);
   }
 });
 
