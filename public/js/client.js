@@ -52,12 +52,7 @@ TrelloPowerUp.initialize({
     if (opts.context.permissions.board !== 'write') {
       return [];
     }
-    return Promise.join(
-      t.get('organization', 'private', 'token'),
-      t.get('board', 'private', 'token'))
-    .spread(function(orgToken, boardToken){
-      return boardToken || orgToken;
-    })
+    return t.get('member', 'private', 'token')
     .then(function(token){
       return [{
         icon: 'https://cdn.hyperdev.com/07656aca-9ccd-4ad1-823c-dbd039f7fccc%2Fzzz-grey.svg',

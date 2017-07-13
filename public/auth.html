@@ -20,14 +20,7 @@
         t.authorize(trelloAuthUrl, { height: 680, width: 580, validToken: tokenLooksValid })
         .then(function(token){
           // store the token in Trello private Power-Up storage
-          return t.set('organization', 'private', 'token', token)
-          .catch(t.NotHandled, function(){
-            // sometimes that may not work
-            // the best example is if this member is a member of the board
-            // but not a member of the team
-            // in that case we fall back to storing it at the board
-            return t.set('board', 'private', 'token', token);
-          })
+          return t.set('member', 'private', 'token', token)
         })
         .then(function(){
           // now that we have the token we needed lets go on to letting

@@ -8,11 +8,9 @@ var token = null;
 
 var TIME_FORMAT = 'LT';
 
-Promise.join(
-  t.get('organization', 'private', 'token'),
-  t.get('board', 'private', 'token'))
-.spread(function(orgToken, boardToken){
-  token = boardToken || orgToken;
+t.get('member', 'private', 'token')
+.then(function(storedToken) {
+  token = storedToken;
 });
 
 var resize = function(){
